@@ -3,7 +3,7 @@ My boxstarter config (https://boxstarter.org/)
 
 ## How to run
 
-Spin up a powershel and install boxstarter by running
+Spin up an admin powershel and install boxstarter by running
 
     . { iwr -useb https://boxstarter.org/bootstrapper.ps1 } | iex; get-boxstarter -Force
     
