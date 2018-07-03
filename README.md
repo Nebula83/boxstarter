@@ -10,5 +10,5 @@ Spin up an admin powershel and install boxstarter by running
 Then run the install script from an elevated Boxstarter Shell
 
     Install-BoxstarterPackage -PackageName https://github.com/Nebula83/boxstarter/raw/master/boxstarter
-    
+    Install-BoxstarterPackage -PackageName https://github.com/Nebula83/boxstarter/raw/master/boxstarter -DisableReboots
 Profit!
