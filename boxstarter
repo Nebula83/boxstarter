@@ -119,6 +119,7 @@ cinst notepadplusplus
 choco install FiraCode -y
 
 cinst spotify --ignore-checksums
+cinst WhatsApp --ignore-checksums
 
 cinst SourceTree
 cinst hg
