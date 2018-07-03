@@ -49,6 +49,8 @@ Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search -N
 #====================================================
 # Windows
 
+Set-WinUserLanguageList -LanguageList en-US -Force
+
 Enable-RemoteDesktop
 
 Set-WindowsExplorerOptions `
