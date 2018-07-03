@@ -1,0 +1,46 @@
+#==================================================== 
+# Boxstarter options
+$Boxstarter.RebootOk=$true # Allow reboots?
+$Boxstarter.NoPassword=$false # Is this a machine with no login password?
+
+Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions
+Enable-RemoteDesktop
+
+#====================================================
+# Power Configuration
+#powercfg -x -standby-timeout-ac 0
+#powercfg -x -standby-timeout-dc 0
+#powercfg -x -monitor-timeout-ac 10
+#powercfg -x -monitor-timeout-dc 10
+#powercfg -x -hibernate-timeout-ac 0
+#powercfg -x -hibernate-timeout-dc 0
+#powercfg -x -disk-timeout-ac 20
+#powercfg -x -disk-timeout-dc 20
+
+
+cinst dropbox
+cinst putty
+cinst toggl
+cinst GoogleChrome-AllUsers
+cinst FoxitReader
+cinst notepadplusplus
+
+cinst spotify
+
+cinst SourceTree
+cinst hg
+cinst git
+cinst poshgit
+
+Install-ChocolateyPinnedTaskBarItem "$($Boxstarter.programFiles)\Google\Chrome\Application\chrome.exe"
+Install-ChocolateyPinnedTaskBarItem "$($Boxstarter.programFiles86)\Notepad++\Notepad++.exe"
+Install-ChocolateyPinnedTaskBarItem "$(windir)\system32\SnippingTool.exe"
+#Install-ChocolateyPinnedTaskBarItem "SPOTIFY"
+
+if (!(Test-Path -Path D:\development )) {
+  mkdir D:\development
+}
+
+if (Test-PendingReboot) { Invoke-Reboot }
+
+
