@@ -11,4 +11,9 @@ Then run the install script
 
     Install-BoxstarterPackage -PackageName https://github.com/Nebula83/boxstarter/raw/master/boxstarter
     
+Alternatively
+ 
+    powershell -NoProfile -ExecutionPolicy bypass -command "Install-BoxstarterPackage -PackageName https://github.com/Nebula83/boxstart
+er"
+    
 Profit!
