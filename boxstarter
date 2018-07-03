@@ -1,13 +1,41 @@
 #==================================================== 
 # Boxstarter options
-$Boxstarter.RebootOk=$true # Allow reboots?
+
+$Boxstarter.RebootOk=$false # Allow reboots?
 $Boxstarter.NoPassword=$false # Is this a machine with no login password?
 
-Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions
-Enable-RemoteDesktop
+
+#==================================================== 
+# Privacy Settings
+
+# Privacy: Let apps use my advertising ID: Disable
+Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo -Name Enabled -Type DWord -Value 0
+# To Restore:
+#Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo -Name Enabled -Type DWord -Value 1
+
+# Privacy: SmartScreen Filter for Store Apps: Disable
+Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost -Name EnableWebContentEvaluation -Type DWord -Value 0
+# To Restore:
+Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost -Name EnableWebContentEvaluation -Type DWord -Value 1
+
+# WiFi Sense: HotSpot Sharing: Disable
+Set-ItemProperty -Path HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting -Name value -Type DWord -Value 0
+# WiFi Sense: Shared HotSpot Auto-Connect: Disable
+Set-ItemProperty -Path HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots -Name value -Type DWord -Value 0
+
+# Disable Telemetry (requires a reboot to take effect)
+Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection -Name AllowTelemetry -Type DWord -Value 0
+Get-Service DiagTrack,Dmwappushservice | Stop-Service | Set-Service -StartupType Disabled
+
+# Start Menu: Disable Bing Search Results
+Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search -Name BingSearchEnabled -Type DWord -Value 0
+# To Restore (Enabled):
+# Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search -Name BingSearchEnabled -Type DWord -Value 1
+
 
 #====================================================
 # Power Configuration
+
 #powercfg -x -standby-timeout-ac 0
 #powercfg -x -standby-timeout-dc 0
 #powercfg -x -monitor-timeout-ac 10
@@ -18,6 +46,67 @@ Enable-RemoteDesktop
 #powercfg -x -disk-timeout-dc 20
 
 
+#====================================================
+# Windows
+
+Enable-RemoteDesktop
+
+Set-WindowsExplorerOptions `
+	-EnableShowHiddenFilesFoldersDrives `
+	-EnableShowProtectedOSFiles `
+	-EnableShowFileExtensions `
+	-DisableOpenFileExplorerToQuickAccess `
+	-DisableShowRecentFilesInQuickAccess `
+	-DisableShowFrequentFoldersInQuickAccess
+
+#Set-TaskbarOptions `
+#	-Dock Bottom `
+#	-Combine Always `
+#	-AlwaysShowIconsOff `
+#	-Size Small
+	
+Set-TaskbarOptions -Lock
+
+
+#====================================================
+# Windows 10 Metro App Removals
+# These start commented out so you choose
+# Just remove the # (comment in PowerShell) on the ones you want to remove
+
+# Be gone, heathen!
+Get-AppxPackage king.com.CandyCrushSaga | Remove-AppxPackage
+# Bing Weather, News, Sports, and Finance (Money):
+Get-AppxPackage Microsoft.BingWeather | Remove-AppxPackage
+Get-AppxPackage Microsoft.BingNews | Remove-AppxPackage
+Get-AppxPackage Microsoft.BingSports | Remove-AppxPackage
+Get-AppxPackage Microsoft.BingFinance | Remove-AppxPackage
+# Xbox:
+Get-AppxPackage Microsoft.XboxApp | Remove-AppxPackage
+# Windows Phone Companion
+Get-AppxPackage Microsoft.WindowsPhone | Remove-AppxPackage
+# Solitaire Collection
+Get-AppxPackage Microsoft.MicrosoftSolitaireCollection | Remove-AppxPackage
+# People
+Get-AppxPackage Microsoft.People | Remove-AppxPackage
+# Groove Music
+Get-AppxPackage Microsoft.ZuneMusic | Remove-AppxPackage
+# Movies & TV
+Get-AppxPackage Microsoft.ZuneVideo | Remove-AppxPackage
+# OneNote
+Get-AppxPackage Microsoft.Office.OneNote | Remove-AppxPackage
+# Photos
+#Get-AppxPackage Microsoft.Windows.Photos | Remove-AppxPackage
+# Sound Recorder
+Get-AppxPackage Microsoft.WindowsSoundRecorder | Remove-AppxPackage
+# Mail & Calendar
+Get-AppxPackage microsoft.windowscommunicationsapps | Remove-AppxPackage
+# Skype (Metro version)
+Get-AppxPackage Microsoft.SkypeApp | Remove-AppxPackage
+
+
+#====================================================
+# Chocolattey packages
+
 cinst dropbox
 cinst putty
 cinst toggl
@@ -25,22 +114,23 @@ cinst GoogleChrome-AllUsers
 cinst FoxitReader
 cinst notepadplusplus
 
-cinst spotify
+choco install FiraCode -y
+
+cinst spotify --ignore-checksums
 
 cinst SourceTree
 cinst hg
 cinst git
 cinst poshgit
 
-Install-ChocolateyPinnedTaskBarItem "$($Boxstarter.programFiles)\Google\Chrome\Application\chrome.exe"
-Install-ChocolateyPinnedTaskBarItem "$($Boxstarter.programFiles86)\Notepad++\Notepad++.exe"
-Install-ChocolateyPinnedTaskBarItem "$(windir)\system32\SnippingTool.exe"
-#Install-ChocolateyPinnedTaskBarItem "SPOTIFY"
+#====================================================
+# Create paths
 
 if (!(Test-Path -Path D:\development )) {
   mkdir D:\development
 }
 
+#====================================================
+# Reboot if needed
+
 if (Test-PendingReboot) { Invoke-Reboot }
-
-
