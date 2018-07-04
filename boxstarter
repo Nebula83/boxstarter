@@ -115,6 +115,9 @@ cinst GoogleChrome-AllUsers
 cinst FoxitReader
 cinst notepadplusplus
 
+cinst python
+cinst pycharm
+
 choco install FiraCode -y
 
 cinst spotify --ignore-checksums
