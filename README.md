@@ -11,4 +11,13 @@ Then run the install script from an elevated Boxstarter Shell
 
     Install-BoxstarterPackage -PackageName https://github.com/Nebula83/boxstarter/raw/master/boxstarter
     Install-BoxstarterPackage -PackageName https://github.com/Nebula83/boxstarter/raw/master/boxstarter -DisableReboots
+    
+Alternatively create a shortcut:
+
+    C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy unrestricted -Command "&'D:\development\scripts\update_boxstarter.ps1'"
+    
+Icon for shortcut:
+
+    %ALLUSERSPROFILE%\Boxstarter\BoxLogo.ico
+
 Profit!
