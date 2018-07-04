@@ -116,7 +116,7 @@ cinst FoxitReader
 cinst notepadplusplus
 
 cinst python
-cinst pycharm
+cinst pycharm-community
 
 choco install FiraCode -y
 
