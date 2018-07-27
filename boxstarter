@@ -130,6 +130,11 @@ cinst git
 cinst poshgit
 
 #====================================================
+# NodeJS stuff
+
+npm install -g @angular/cli
+
+#====================================================
 # Create paths
 
 if (!(Test-Path -Path D:\development )) {
