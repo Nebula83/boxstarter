@@ -114,7 +114,9 @@ cinst toggl
 cinst GoogleChrome-AllUsers
 cinst FoxitReader
 cinst notepadplusplus
+
 cinst nodejs
+cinst WebStorm
 
 cinst python
 cinst pycharm-community
@@ -133,6 +135,7 @@ cinst poshgit
 # NodeJS stuff
 
 npm install -g @angular/cli
+
 
 #====================================================
 # Create paths
