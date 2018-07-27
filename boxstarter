@@ -114,6 +114,7 @@ cinst toggl
 cinst GoogleChrome-AllUsers
 cinst FoxitReader
 cinst notepadplusplus
+cinst nodejs
 
 cinst python
 cinst pycharm-community
